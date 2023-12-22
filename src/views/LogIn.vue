@@ -96,5 +96,11 @@ export default {
         color: rgb(206, 28, 28);
         font-size: 12px;
         font-weight: bold;
+        background-color: rgb(249, 223, 223);
+        box-sizing: border-box;
+        padding: 5px;
+        width: 80%;
+        margin-left: auto;
+        margin-right:auto ;
     }
 </style>

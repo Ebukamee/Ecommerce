@@ -59,7 +59,7 @@
     flex-wrap: wrap;
     font-size: 14px;
     box-sizing: border-box;
-    padding: 20px 5%;
+    padding: 0px 5%;
   }
   h4 {
     font-size: 20px;
@@ -103,7 +103,7 @@
     background-color: #041e42;
     background-image: url('../assets/bg.png');
     background-position: 20% 30%;
-    width: 100%;
+    /* width: 100%; */
     margin-top: 50px;
     color: white;
     padding: 20px 5%

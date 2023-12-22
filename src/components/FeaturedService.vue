@@ -22,6 +22,7 @@
 <style scoped>
   section {
     display: flex;
+    flex-wrap: wrap;
     margin: 10px 50px;
     justify-content: space-between;
     text-align: center;
@@ -43,5 +44,10 @@ section .ft:nth-child(3) h4 {
 }
 section .ft:nth-child(4) h4 {
     background-color: rgb(243,230,220);
+}
+@media (max-width : 750px) {
+    section{
+        justify-content: space-around;
+    }
 }
 </style>

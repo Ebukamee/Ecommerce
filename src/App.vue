@@ -20,7 +20,7 @@ body {
   font-family:'Quicksand', sans-serif;
   margin: 0;
   width: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 </style>
