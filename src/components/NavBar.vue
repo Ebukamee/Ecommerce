@@ -105,7 +105,7 @@ ul div {
 nav.desktop {
     display: grid;
     grid-template-columns: 65% 35%;
-    width: 100%;
+    width: 90%;
     /* margin:10px 5%; */
 }
 
@@ -173,7 +173,7 @@ nav h2 {
         display: flex;
         /* grid-template-columns: 33% 33% 34% */
         justify-content: space-between;
-        width: 100%;
+        width: 90%;
     }
     /* .menu-button {
         width: 20px;
