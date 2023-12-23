@@ -39,7 +39,7 @@ export default {
           email:this.email,
           password:this.password
         })
-        this.$router.push('/')
+        this.$router.push('/verifyemail')
       } catch(err) {
         this.error = err.message
       }

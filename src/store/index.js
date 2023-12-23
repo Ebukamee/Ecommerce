@@ -1,10 +1,17 @@
 import { createStore } from "vuex";
 import { auth,googleIn } from "@/firebase/config";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut,onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import {
+        createUserWithEmailAndPassword, 
+         signInWithEmailAndPassword,
+         signOut,onAuthStateChanged, 
+         signInWithPopup,
+         sendEmailVerification
+         } from "firebase/auth";
 
 const store = createStore({
     state: {
         user: null,
+        IsVerified:false,
         authIsReady:false
     },
     mutations:{
@@ -22,6 +29,11 @@ const store = createStore({
             const res = await createUserWithEmailAndPassword(auth,email,password)
             if(res) {
                 context.commit('setUser',res.user)
+                sendEmailVerification(auth.currentUser)
+                .then (() => {
+                    
+                    alert('Email Link has been sent')
+                })
             }
             else {
                 throw new Error('Something went wrong')
@@ -48,6 +60,13 @@ const store = createStore({
         async logout(context) {
             await signOut(auth)
             context.commit('setUser', null)
+        },
+        async sendEmail() {
+           await sendEmailVerification(auth.currentUser)
+                .then (() => {
+                    
+                    alert('Email Link has been resent')
+                })
         }
     }
 })

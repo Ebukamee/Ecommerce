@@ -26,8 +26,8 @@
             <h2>Shopify</h2>
         </div>
         <div class="login">
-                <button class="login">Log In</button>
-                <button class="login">Sign Up</button>
+                <button class="login" @click="Login">Log In</button>
+                <button class="login" @click="SignUp">Sign Up</button>
             </div>
     </nav>
     <div :class="menu_class">
@@ -155,7 +155,7 @@ nav h2 {
         top: 0;
         left: 0;
         background-color: white;
-        transform: 2s;
+        transition: 5s;
         height: 100%;
         width: 60%;
         box-shadow:0 0.5px 5px 0 rgba(0,0,0,0.3),0 7px 21px 0 rgba(0,0,0,0.20);

@@ -12,7 +12,17 @@ export default {
     FeaturdService,
     FooterBar
   },
+  computed : {
+    user() {
+      return this.$store.state.user
+    }
+  },
   mounted() {
+    setTimeout(() => {
+      if(this.user && !this.user.emailVerified) {
+      this.$router.push('/verifyemail')
+    }
+    }, 1000);
   }
 }
 </script>
@@ -22,6 +32,5 @@ export default {
     <HeroSection />
     <FeaturdService />
     <FooterBar />
-
   </template>
   
