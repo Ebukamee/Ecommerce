@@ -25,9 +25,12 @@
         <div class="logo">
             <h2>Shopify</h2>
         </div>
-        <div class="login">
+        <div class="login" v-if="!Logo">
                 <button class="login" @click="Login">Log In</button>
                 <button class="login" @click="SignUp">Sign Up</button>
+            </div>
+            <div class="login" v-else @click="logout">
+                <button class="login">Logout</button>
             </div>
     </nav>
     <div :class="menu_class">
