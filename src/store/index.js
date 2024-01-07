@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { auth,googleIn } from "@/firebase/config";
+import { auth,googleIn, db, storage} from "@/firebase/config";
 import {
         createUserWithEmailAndPassword, 
          signInWithEmailAndPassword,
@@ -7,12 +7,15 @@ import {
          signInWithPopup,
          sendEmailVerification
          } from "firebase/auth";
-
+import { collection,addDoc, getDocs } from "firebase/firestore";
+import { ref, uploadBytes,getDownloadURL } from "firebase/storage";
 const store = createStore({
     state: {
         user: null,
         IsVerified:false,
-        authIsReady:false
+        authIsReady:false,
+        imageUrl:'',
+        Products:[]
     },
     mutations:{
         setUser(state,payload) {
@@ -65,8 +68,41 @@ const store = createStore({
            await sendEmailVerification(auth.currentUser)
                 .then (() => {
                     
-                    alert('Email Link has been resent')
+                    alert('Email Verificattion Link has been resent')
                 })
+        },
+        async AddProducts(_,{Name,Price,Image,Description,Url}) {
+                  try {
+                    const Ref = ref(storage,"products" );
+                    const ImagesRef = ref(Ref, Image.name)
+                    Ref.name === ImagesRef.name; 
+                    Ref.fullPath === ImagesRef.fullPath;  
+                    const metadata = {
+                        contentType: 'image/jpeg',
+                      };
+                    await uploadBytes(ImagesRef, Image, metadata).then((snapshot) => {
+                        console.log(Image,snapshot);
+                      });
+                      
+                    await setTimeout(() => {
+                        getDownloadURL(ref(Ref,Image.name)).then((url) => {
+                            this.state.imageUrl = url
+                            console.log(this.state.imageUrl)
+                        })
+                    }, 1000)
+                    await setTimeout(() => {
+                        addDoc(collection(db, "Products"),{Name,Price,Description,Url});
+                    }, 3000)
+                  } catch (error) {
+                    console.error('Error adding item to Firestore:', error);
+                  }
+        },
+        async getProducts() {
+            const latest =await getDocs(collection(db,'Products'));
+           latest.forEach((doc) => {
+            this.state.Products.push(doc.data());
+          });
+            console.log(this.state.Products)
         }
     }
 })

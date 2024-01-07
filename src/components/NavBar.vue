@@ -13,6 +13,7 @@
             </div>
             <div class="login" v-else>
                 <button @click="logout">Log out</button>
+                <i class="bx bx-shopping-bag"></i>
             </div>
             </template>
             <div class="profile"></div>
@@ -117,8 +118,8 @@ button {
     color:#fff ;
     border: 1px solid var(--green);
     border-radius: 5px;
-    padding: 5px 10px;
-    margin: 0px 5px;
+    padding: 5px 5px;
+    margin: 5px 2px;
 }
 .login-btn {
     background-color: var(--white);
