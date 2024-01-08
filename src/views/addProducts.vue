@@ -89,8 +89,14 @@ export default {
       Price: 0,
       Image: "",
       Description: "",
-      Url: this.$store.state.imageUrl,
+      Url: '',
     };
+  },
+  computed: {
+    // A computed property that doubles the originalValue
+    url() {
+      return this.$store.state.imageUrl;
+    },
   },
   methods: {
     Upload(e) {
@@ -103,15 +109,26 @@ export default {
       }
     },
     async Add() {
-      await this.$store.dispatch("AddProducts", {
+      await this.$store.dispatch('upLoadImage', {
+        Image: this.Image
+      })
+        setTimeout(()=> {
+       this.$store.dispatch("AddProducts", {
         Name: this.Name,
         Price: this.Price,
         Image: this.Image,
-        Url: this.Url,
+        Url: this.url,
         Description: this.Description,
       });
-      console.log('This is the url:', this.Url)
+      this.Name= ""
+      this.Price= 0
+      this.Image= ""
+      this.Description= ""
+      console.log('This is the url:', this.url)
+        }, 2000)
+     
     },
   },
 };
 </script>
+

@@ -7,7 +7,7 @@ import {
          signInWithPopup,
          sendEmailVerification
          } from "firebase/auth";
-import { collection,addDoc, getDocs } from "firebase/firestore";
+import { collection,addDoc, getDocs, orderBy } from "firebase/firestore";
 import { ref, uploadBytes,getDownloadURL } from "firebase/storage";
 const store = createStore({
     state: {
@@ -71,9 +71,9 @@ const store = createStore({
                     alert('Email Verificattion Link has been resent')
                 })
         },
-        async AddProducts(_,{Name,Price,Image,Description,Url}) {
-                  try {
-                    const Ref = ref(storage,"products" );
+    async upLoadImage(_,{Image}) {
+        try {
+            const Ref = ref(storage,"products" );
                     const ImagesRef = ref(Ref, Image.name)
                     Ref.name === ImagesRef.name; 
                     Ref.fullPath === ImagesRef.fullPath;  
@@ -90,6 +90,13 @@ const store = createStore({
                             console.log(this.state.imageUrl)
                         })
                     }, 1000)
+        }
+        catch (error) {
+            console.error('Error adding image to Firestore Storage:', error);
+          }
+    },
+        async AddProducts(_,{Name,Price,Description,Url}) {
+                  try {
                     await setTimeout(() => {
                         addDoc(collection(db, "Products"),{Name,Price,Description,Url});
                     }, 3000)
@@ -98,7 +105,7 @@ const store = createStore({
                   }
         },
         async getProducts() {
-            const latest =await getDocs(collection(db,'Products'));
+            const latest =await getDocs(collection(db,'Products'), orderBy('date'));
            latest.forEach((doc) => {
             this.state.Products.push(doc.data());
           });

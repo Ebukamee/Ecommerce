@@ -49,7 +49,7 @@ export default {
                             <i class="bx bxs-star star"></i>
                             <i class="bx bxs-star star"></i>
                         </div>
-                        <h4>₦13000</h4>
+                        <h4>₦{{ Product.Price }}</h4>
                         </div>
                     </div>
                 </div>
