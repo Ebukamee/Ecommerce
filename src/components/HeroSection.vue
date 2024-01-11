@@ -3,7 +3,7 @@
         <h2>Super Value deals</h2>
         <h2 class="green">On all Clothes</h2>
         <p>Save more by shopping with us</p>
-        <button>Shop now</button>
+        <button @click="$router.push('/shop')">Shop now</button>
     </div>
 </template>
 
@@ -38,5 +38,11 @@
     cursor: pointer;
     font-weight: 500;
     font-size: 15px;
+   }
+   @media (max-width : 1000px) {
+    .hero {
+      background-image: url('../assets/model2 (1).jpg');
+      height: 400px;
+    }
    }
 </style>

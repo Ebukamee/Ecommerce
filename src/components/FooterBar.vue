@@ -47,7 +47,7 @@
         </div>
 
         <div class="copyright">
-            <p>© Shopify Ventures 2023.</p>
+            <p>© Shopify Ventures {{ year }}.</p>
         </div>
         </footer>
 </template>
@@ -112,3 +112,13 @@ span {
     color: var(--brown);
 }
 </style>
+<script>
+ const date = new Date()
+export default {
+  data(){
+    return {
+      year: date.getFullYear()
+    }
+  }
+}
+</script>

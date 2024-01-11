@@ -1,3 +1,4 @@
+// Import Functions from Vuex, firebase-auth, firebase-firestore and firebase-storage
 import { createStore } from "vuex";
 import { auth,googleIn, db, storage} from "@/firebase/config";
 import {
@@ -7,15 +8,20 @@ import {
          signInWithPopup,
          sendEmailVerification
          } from "firebase/auth";
-import { collection,addDoc, getDocs, orderBy } from "firebase/firestore";
+import { collection,addDoc, getDocs, orderBy,getDoc,doc } from "firebase/firestore";
 import { ref, uploadBytes,getDownloadURL } from "firebase/storage";
+//  Intialize the store
 const store = createStore({
+    // Set an intial value for the state's data
     state: {
         user: null,
         IsVerified:false,
         authIsReady:false,
         imageUrl:'',
-        Products:[]
+        adminId:'0MgQ0AWHZOQqZ1SobxwG7z2ZNzs2',
+        Products:[],
+        Cart:[],
+        Product:[],
     },
     mutations:{
         setUser(state,payload) {
@@ -107,11 +113,52 @@ const store = createStore({
         async getProducts() {
             const latest =await getDocs(collection(db,'Products'), orderBy('date'));
            latest.forEach((doc) => {
-            this.state.Products.push(doc.data());
+            const data = doc.data()
+            data.id = doc.id
+            this.state.Products.push(data);
+            setTimeout(() => {
+                this.state.Products =[]
+            }, 500);
           });
             console.log(this.state.Products)
-        }
+        },
+        async getById(_,{documentId}) {
+            const documentRef = doc(db,'Products',  documentId);
+            const documentSnapshot = await getDoc(documentRef);
+          
+            if (documentSnapshot.exists()) {
+            
+              this.state.Product.push(documentSnapshot.data())
+              setTimeout(() => {
+                this.state.Products =[]
+            }, 500);
+            } 
+            else {
+            return null;
+            }
+          },
+          async AddTocart(_,{Name,Price,Quantity,Url}) {
+            try {
+              await setTimeout(() => {
+                  addDoc(collection(db, `UsersDetails/Cart/${this.state.user.uid}`),{Name,Price,Quantity,Url});
+              }, 3000)
+            } catch (error) {
+              console.error('Error adding item to cart:', error);
+            }
+  },
+  async getCart(_,{ Id }) {
+const latest =await getDocs(collection(db,`UsersDetails/Cart/${Id}`));
+    latest.forEach((doc) => {
+     const data = doc.data()
+     data.id = doc.id
+     this.state.Cart.push(data);
+     console.log(this.state.Cart)
+     setTimeout(() => {
+         this.state.Cart =[]
+     }, 500);
+   });
     }
+}
 })
 const unsub=onAuthStateChanged(auth, (user)=> {
     store.commit('setAuthIsReady',true)
