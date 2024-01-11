@@ -15,7 +15,9 @@ export default {
     return {
       Products: this.$store.state.Products,
       currentSlide: 1,
-      loading:true
+      loading:true,
+      adminId: this.$store.state.adminId,
+      deleting: false,
     };
   },
   computed: {
@@ -49,6 +51,16 @@ export default {
       }
     }, 1000);
   },
+  methods : {
+    deleteProduct(Id) {
+      this.deleting =true
+      this.$store.dispatch('deleteProducts',{Id : Id})
+      setTimeout(() => {
+        window.location.reload()
+        this.deleting = false
+      }, 3000);
+    }
+  },
 };
 </script>
 
@@ -80,6 +92,9 @@ export default {
           </div>
         </div>
       </div>
+      <div class="button" v-if="user.uid == adminId">
+          <button @click="deleteProduct(Product.id)">Delete</button>
+        </div>
     </div>
   </section>
   <p class="blaq">{{ currentSlide }} of {{ totalSlides }} Pages</p>
@@ -91,11 +106,24 @@ export default {
       Next
     </button>
   </div>
+  <h3 v-if="deleting">Deleting...</h3>
   <FooterBar />
   </template>
 </template>
 
 <style scoped>
+.button {
+  display: block;
+  text-align: center;
+}
+button {
+  color: white;
+       padding: 5px;
+       text-align: center;
+       border-radius: 5px;
+        background-color:  rgb(206, 28, 28);
+        border: 1px solid   rgb(206, 28, 28);
+}
 .hero {
   background-image: url("../assets/backG.jpg");
   background-repeat: no-repeat;
@@ -115,7 +143,8 @@ h2 {
   width: 23%;
   min-width: 250px;
   padding: 10px 12px;
-  height: 400px;
+  min-height: 400px;
+  max-height: 450px;
   border: 1px solid #cce7d0;
   border-radius: 10px;
   cursor: pointer;
@@ -131,7 +160,8 @@ h2 {
   width: 90%;
   /* border-radius: 20px; */
   max-width: 90%;
-  max-height: 100%;
+  height: 100%;
+  max-height: 200px;
   display: block;
   margin: auto;
 }
@@ -183,14 +213,9 @@ section {
   font-size: 12px;
   color: rgb(241, 181, 25);
 }
-/* .main-container {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    padding-top: 20px;
-    flex-wrap: wrap;
-    background-color: pink;
-   } */
+h3 {
+  text-align: center;
+}
 @media (max-width: 1000px) {
   .hero {
     background-image: url("../assets/backG (2).jpg");

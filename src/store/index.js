@@ -8,7 +8,7 @@ import {
          signInWithPopup,
          sendEmailVerification
          } from "firebase/auth";
-import { collection,addDoc, getDocs, orderBy,getDoc,doc } from "firebase/firestore";
+import { collection,addDoc, getDocs, orderBy,getDoc,doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes,getDownloadURL } from "firebase/storage";
 //  Intialize the store
 const store = createStore({
@@ -130,7 +130,7 @@ const store = createStore({
             
               this.state.Product.push(documentSnapshot.data())
               setTimeout(() => {
-                this.state.Products =[]
+                this.state.Product =[]
             }, 500);
             } 
             else {
@@ -145,6 +145,28 @@ const store = createStore({
             } catch (error) {
               console.error('Error adding item to cart:', error);
             }
+  },
+  async  deleteFromCart(_,{Id}) {
+    const documentRef = doc(db, `UsersDetails/Cart/${this.state.user.uid}`, Id);
+    try {
+        await setTimeout(() => {
+             deleteDoc(documentRef);
+             console.log('Document successfully deleted!');
+            // deleteDoc(collection(db, `UsersDetails/Cart/${this.state.user.uid}`),Id);
+        }, 3000)
+      } catch (error) {
+        console.error('Error deleting Item', error);
+      }
+  },
+  deleteProducts(_,{Id}) {
+    const Ref = doc(db,'Products',Id)
+    try {
+        deleteDoc(Ref)
+        console.log('Succes')
+    }
+    catch(error) {
+        console.log('Error happened during deleting process', error)
+    }
   },
   async getCart(_,{ Id }) {
 const latest =await getDocs(collection(db,`UsersDetails/Cart/${Id}`));
