@@ -1,12 +1,16 @@
 <template>
   <LoaDer v-if="loading" />
-  <form @submit.prevent="makePayment" v-else>
-    <input type="text" name="full_name" placeholder="Enter Full Name" v-model="Name" required>
+ <template v-else>
+  <h2>Checkout</h2>
+  <form @submit.prevent="makePayment">
+    <input type="text" name="full_name" placeholder="Enter First Name" v-model="First" required>
+    <input type="text" name="full_name" placeholder="Enter Last Name" v-model="Last" required>
     <input type="tel" name="phone" placeholder="Enter valid phone number" v-model="Phone" required>
             <input type="email" name="email" id="email" v-model="email" placeholder="Enter valid email" required>
-            <p>Note: You vcan only pay ₦500,000 at a given time</p>
+            <p>Note: You can only pay ₦500,000 at a time</p>
             <button type="submit">Pay ₦{{ amount }}</button>
         </form>
+ </template>
 </template>
  
 <script>
@@ -16,7 +20,8 @@ export default {
     return {
       amount: 0,
       loading: true,
-      Name:'',
+      First:'',
+      Last:'',
       Phone:null,
       email:"",
       Items: this.$store.state.Cart,
@@ -35,7 +40,7 @@ export default {
         customer: {
           email: this.email,
           phonenumber: this.Phone,
-          name: this.Name
+          name: `${this.First} ${this.Last}`
         },
         callback: function(data) {
           // specified callback function
@@ -44,7 +49,6 @@ export default {
         customizations: {
           title: 'My store',
           description: 'Payment for items in cart',
-          logo: 'https://assets.piedpiper.com/logo.png'
         }
       })
     }
@@ -89,6 +93,11 @@ export default {
 </script>
  
 <style>
+h2 {
+  color: var(--brown);
+  text-align: center;
+  font-family: League Spartan, 'sans-serif';
+}
   input {
     display: block;
     padding: 2.5px 10px;
@@ -99,7 +108,7 @@ export default {
     outline: none;
   }
   button {
-    padding: 2.5px 10px;
+    padding: 3px 10px;
     border-radius: 2.5px;
     width: 85%;
     background-color: var(--brown);
@@ -116,7 +125,7 @@ export default {
    padding: 25px 0;
    width: 90%;
     max-width: 300px;
-    margin:50px auto;
+    margin:20px auto;
     border-radius: 2.5px;
     }
     p {

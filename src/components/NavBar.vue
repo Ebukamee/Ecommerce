@@ -1,21 +1,23 @@
 <template>
   <nav class="desktop">
     <div class="logo">
-      <h2>Shopify</h2>
+      <h2>Retro</h2>
     </div>
-    <ul>
+    <ul :class="user ? 'flex':'' ">
       <li @click="$router.push('/')">Home</li>
       <li @click="$router.push('/shop')">Shop</li>
       <li v-if="user && user.uid == id" @click="$router.push('/addProducts')">
         Add Product
       </li>
       <template v-if="auth">
-        <div class="login" v-if="!user">
-          <button class="login" @click="Login">Log In</button>
+        <div class="log" v-if="!user">
+          <button class="log" @click="Login">Log In</button>
           <button class="signup" @click="SignUp">Sign Up</button>
         </div>
         <div class="login" v-else>
-          <button @click="logout">Log out</button>
+          <div class="circle" @click="show = !show">
+        <i class="fa fa-user pu"></i>
+      </div>
           <i class="bx bx-shopping-bag"  @click="$router.push('/cart')"></i>
         </div>
       </template>
@@ -27,17 +29,24 @@
       <img src="../assets/icon-menu.svg" alt="" class="menu" @click="menu" />
     </div>
     <div class="logo">
-      <h2>Shopify</h2>
+      <h2>Retro</h2>
     </div>
-    <div class="login" v-if="!user">
-      <button class="login" @click="Login">Log In</button>
-      <button class="login" @click="SignUp">Sign Up</button>
+    <div class="log" v-if="!user">
+      <button class="log" @click="Login">Log In</button>
+      <button class="log" @click="SignUp">Sign Up</button>
     </div>
     <div class="login" v-else>
-      <button class="login" @click="logout">Logout</button>
+      <div class="circle" @click="show = !show">
+        <i class="fa fa-user pu"></i>
+      </div>
       <i class="bx bx-shopping-bag" @click="$router.push('/cart')"></i>
     </div>
   </nav>
+  <div class="profile" v-if="user" v-show="show">
+    <h3>{{ user.uid == $store.state.adminId ? 'Administrator' : 'User' }}</h3>
+    <p>{{ user.email }}</p>
+    <span @click="logout">Log out</span>
+  </div>
   <div :class="menu_class">
     <ul>
       <li>
@@ -63,6 +72,7 @@ export default {
   data() {
     return {
       open: false,
+      show:false,
       menu_class: "mobile_menu",
     };
   },
@@ -107,6 +117,9 @@ export default {
 nav ul li {
   display: inline-block;
 }
+.pu {
+ color: white;
+}
 ul li {
   display: grid;
   margin: 0 7px;
@@ -119,9 +132,35 @@ ul {
 
 .logo {
   color: var(--green);
+  margin-top: 10px;
 }
 ul div {
   display: inline-block;
+}
+.flex {
+  display: flex;
+  align-items: center;
+}
+.circle {
+  width: 20px;
+  height: 20px;
+  padding: 1px;
+  background-color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 50%;
+  text-align: center;
+}
+.profile {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  width: fit-content;
+  box-shadow: 5px 5px 10px gray;
+  z-index: 1;
+  position: absolute;
+  top: 50px;
+  right: 20px;
 }
 nav.desktop {
   display: grid;
@@ -137,6 +176,12 @@ button {
   border-radius: 5px;
   padding: 5px 5px;
   margin: 5px 2px;
+}
+.login {
+  display: flex;
+  align-items: center;
+  width: 50px;
+  justify-content: space-between;
 }
 .login-btn {
   background-color: var(--white);
@@ -160,6 +205,9 @@ nav h2 {
 }
 .mobile_menu {
   display: none;
+}
+span {
+  font-family: Poppins , 'sans-serif';
 }
 @media (max-width: 750px) {
   .mobile_menu {
@@ -229,5 +277,15 @@ nav h2 {
   .button-area .no {
     margin-top: 20px;
   }
+  
+.login {
+  display: flex;
+  align-items: center;
+  width: 50px;
+  justify-content: space-between;
+}
+.logo {
+  margin: 0;
+}
 }
 </style>

@@ -8,7 +8,7 @@ import {
          signInWithPopup,
          sendEmailVerification
          } from "firebase/auth";
-import { collection,addDoc, getDocs, orderBy,getDoc,doc, deleteDoc } from "firebase/firestore";
+import { collection,addDoc, getDocs, orderBy,getDoc,doc, deleteDoc, deleteField,updateDoc  } from "firebase/firestore";
 import { ref, uploadBytes,getDownloadURL } from "firebase/storage";
 //  Intialize the store
 const store = createStore({
@@ -168,6 +168,15 @@ const store = createStore({
     catch(error) {
         console.log('Error happened during deleting process', error)
     }
+  },
+  async clearCart() {
+    const documentRef = doc(collection(db, `UsersDetails/Cart/${this.state.user.uid}`));
+    await updateDoc(documentRef, {
+        Name: deleteField(),
+        Quantity: deleteField(),
+        Price:deleteField(),
+        Url:deleteField()
+    });
   },
   async getCart(_,{ Id }) {
 const latest =await getDocs(collection(db,`UsersDetails/Cart/${Id}`));
