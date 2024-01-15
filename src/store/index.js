@@ -22,6 +22,7 @@ const store = createStore({
         Products:[],
         Cart:[],
         Product:[],
+        total:null
     },
     mutations:{
         setUser(state,payload) {

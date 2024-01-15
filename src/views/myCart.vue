@@ -32,7 +32,7 @@
     <h3 v-if="deleting">Deleting...</h3>
     <div class="checkout">
       <h2>Total: ₦{{ Total }}</h2>
-      <button>Procced to checkout</button>
+      <button @click="$router.push('/checkout')">Procced to checkout</button>
     </div>
     <FooterBar />
   </template>
@@ -63,6 +63,7 @@ export default {
     },
   },
   mounted() {
+    // this.$store.state.total = null
     setTimeout(() => {
       if (this.user && !this.user.emailVerified) {
         this.$router.push("/verifyemail");
@@ -100,6 +101,9 @@ export default {
             this.deleting =false
             window.location.reload()
         }, 4000);
+    },
+    Move() {
+      // this.$store.state.total = this.Total
     }
   }
 };
